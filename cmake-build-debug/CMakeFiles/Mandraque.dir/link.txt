@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Mandraque.dir/main.cpp.o  -o Mandraque 

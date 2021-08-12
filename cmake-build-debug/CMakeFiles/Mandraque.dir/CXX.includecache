@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/tmp/tmp.sN9e6d7ZCY/main.cpp
+iostream
+-
+memory
+-
+string
+-
+vector
+-
+chrono
+-
+algorithm
+-
+unordered_set
+-
+unordered_map
+-
+

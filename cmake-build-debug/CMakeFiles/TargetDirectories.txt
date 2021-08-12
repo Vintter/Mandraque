@@ -1,0 +1,3 @@
+/tmp/tmp.sN9e6d7ZCY/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/tmp/tmp.sN9e6d7ZCY/cmake-build-debug/CMakeFiles/edit_cache.dir
+/tmp/tmp.sN9e6d7ZCY/cmake-build-debug/CMakeFiles/Mandraque.dir
