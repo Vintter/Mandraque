@@ -58,20 +58,6 @@ int main() {
            }
        }
    }
-    for(set::const_iterator it = a.begin(); it != a.end(); ++it){
-        p[0] = *it;
-        p[1] = x;
-        y = *it + x;
-        mutation.insert(map::value_type(y,p));
-    }
-
-    for(map::const_iterator it = mutation.begin(); it != mutation.end(); ++it){
-        if(mutation.count(it->first) > 1){
-            a.erase(it->second[0]);
-            b.erase(it->second[1]);
-        }
-    }
-
     cout<<a.size()<<' '<<b.size()<<endl;
 
 #ifdef LOCAL
