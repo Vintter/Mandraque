@@ -79,13 +79,23 @@ int main() {
         it++;
     }
 
-    for(map::iterator i1 = geneA.begin();i1 != geneA.end(); ++i1){
-        if(geneB.count(i1->first) > 0){
-            map::iterator i2 = geneB.find(i1->first);
-            a.erase(i1->second[0]);
-            a.erase(i1->second[1]);
-            b.erase(i2->second[0]);
-            b.erase(i2->second[1]);
+    for(map::iterator i = geneA.begin();!a.empty() && i != geneA.end(); i++){
+        uint_fast32_t m = geneB.count(i->first);
+        if(m > 0){
+            x = i->first;
+            while(geneA.count(x) > 0){
+                map::iterator j = geneA.find(x);
+                a.erase(j->second[0]);
+                a.erase(j->second[1]);
+                geneA.erase(j);
+            }
+            while(geneB.count(x) > 0){
+                map::iterator j = geneB.find(x);
+                b.erase(j->second[0]);
+                b.erase(j->second[1]);
+                geneB.erase(j);
+            }
+
         }
     }
 
