@@ -7,18 +7,19 @@
 #include <unordered_set>
 #include <unordered_map>
 
-//#define LOCAL
+#define LOCAL
 
 using namespace std;
-typedef std::unordered_multimap<string,vector<string>> map;
 typedef std::unordered_set<string> set;
+typedef std::unordered_multimap<string,vector<string>> map;
+using std::reverse;
 
 int main() {
 
     set a,b;
     map mutation;
-    uint_fast32_t A,B,m;
-    string x,y;
+    uint_fast32_t A,B;
+    string x,y,z,w;
     vector<string> p(2);
 
 #ifdef LOCAL
@@ -35,12 +36,33 @@ int main() {
     for(uint_fast16_t i=B;i>0;i--){
         cin>>x;
         b.insert(set::value_type(x));
-        for(set::const_iterator it = a.begin(); it != a.end(); ++it){
-            p[0] = *it;
-            p[1] = x;
-            y = *it + x;
-            mutation.insert(map::value_type(y,p));
-        }
+    }
+
+   for(set::const_iterator it = a.begin();it != a.end(); ++it){
+       x = *it;
+       for(int i=0; i < x.length()-1; i++){
+           y+=x[i];
+           if (a.count(y) > 0) {
+               for (int j=i+1; j<x.length(); j++){
+                    z += x[j];
+               }
+               for(set::const_iterator it2 = b.begin();it2 != b.end(); ++it2){
+                   w = z + *it2;
+                   if (b.count(w) > 0) {
+                       a.erase(x);
+                       a.erase(y);
+                       b.erase(*it2);
+                       b.erase(w);
+                   }
+               }
+           }
+       }
+   }
+    for(set::const_iterator it = a.begin(); it != a.end(); ++it){
+        p[0] = *it;
+        p[1] = x;
+        y = *it + x;
+        mutation.insert(map::value_type(y,p));
     }
 
     for(map::const_iterator it = mutation.begin(); it != mutation.end(); ++it){
@@ -50,7 +72,7 @@ int main() {
         }
     }
 
-    cout<<a.size()<<" "<<b.size()<<endl;
+    cout<<a.size()<<' '<<b.size()<<endl;
 
 #ifdef LOCAL
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
