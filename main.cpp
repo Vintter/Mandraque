@@ -19,7 +19,7 @@ int main() {
     set a,b;
     map geneA,geneB;
     uint_fast32_t A,B;
-    string x,y,z,w,k;
+    string x,y,k;
     vector<string> p(2);
 
 #ifdef LOCAL
@@ -40,14 +40,11 @@ int main() {
     }
 
 
-    set::const_iterator it1 = a.begin();
-    set::const_iterator it2 = b.begin();
-    while(it1 != a.end() && it2 != b.end()){
-        x = *it1;
-        w = *it2;
-        for(int i=0; i < x.length()-1 || i < w.length()-1 ; i++) {
+    set::const_iterator it = a.begin();
+    while(it != a.end()){
+        x = *it;
+        for(int i=0; i < x.length()-1;i++) {
             y += x[i];
-            z += w[i];
             if(x.size()-1 > i && a.contains(y)){
                 p[0] = x;
                 p[1] = y;
@@ -55,21 +52,31 @@ int main() {
                     k += x[j];
                 }
                 geneA.insert(map::value_type(k,p));
-            }
-            k = "";
-            if(w.size()-1 > i && b.contains(z)){
-                p[0] = w;
-                p[1] = z;
-                for (int j=i+1; j<w.length(); j++){
-                    k += w[j];
-                }
-                geneB.insert(map::value_type(k,p));
+                k = "";
             }
         }
         y = "";
-        z = "";
-        it1++;
-        it2++;
+        it++;
+    }
+
+    it = b.begin();
+    while(it != b.end()){
+        x = *it;
+        for(int i=0; i < x.length()-1;i++){
+            y += x[i];
+            if(x.size()-1 > i && b.contains(y)){
+                p[0] = x;
+                p[1] = y;
+                for (int j=i+1; j<x.length(); j++){
+                    k += x[j];
+                }
+                string k2 (k.rbegin(), k.rend());
+                geneB.insert(map::value_type(k2,p));
+                k = "";
+            }
+        }
+        y = "";
+        it++;
     }
 
     for(map::iterator i1 = geneA.begin();i1 != geneA.end(); ++i1){
