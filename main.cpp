@@ -10,17 +10,18 @@
 #define LOCAL
 
 using namespace std;
-typedef std::unordered_set<string> set;
-typedef std::unordered_multimap<string,vector<string>> map;
+typedef std::unordered_map<string ,string> map;
+typedef std::unordered_set<string> set,S;
+
 using std::reverse;
 
 int main() {
 
-    set a,b;
-    map geneA,geneB;
+    map a,b;
+    set geneA,geneB;
     uint_fast32_t A,B;
     string x,y,k;
-    vector<string> p(2);
+    S SA,SB;
 
 #ifdef LOCAL
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
@@ -30,28 +31,25 @@ int main() {
 
     for(int i=A;i>0;i--){
         cin>>x;
-        a.insert(set::value_type(x));
+        a.insert(map::value_type(x,""));
     }
 
     for(int i=B;i>0;i--){
         cin>>x;
         string y (x.rbegin(), x.rend());
-        b.insert(set::value_type(y));
+        b.insert(map::value_type(y,""));
     }
 
-
-    set::const_iterator it = a.begin();
+    map::const_iterator it = a.begin();
     while(it != a.end()){
-        x = *it;
-        for(int i=0; i < x.length()-1;i++) {
+        x = it->first;
+        for(int i=0; i < x.length()-1;i++){
             y += x[i];
-            if(x.size()-1 > i && a.contains(y)){
-                p[0] = x;
-                p[1] = y;
+            if(a.contains(y)){
                 for (int j=i+1; j<x.length(); j++){
                     k += x[j];
                 }
-                geneA.insert(map::value_type(k,p));
+                geneA.insert(k);
                 k = "";
             }
         }
@@ -61,17 +59,15 @@ int main() {
 
     it = b.begin();
     while(it != b.end()){
-        x = *it;
+        x = it->first;
         for(int i=0; i < x.length()-1;i++){
             y += x[i];
-            if(x.size()-1 > i && b.contains(y)){
-                p[0] = x;
-                p[1] = y;
+            if(b.contains(y)){
                 for (int j=i+1; j<x.length(); j++){
                     k += x[j];
                 }
                 string k2 (k.rbegin(), k.rend());
-                geneB.insert(map::value_type(k2,p));
+                geneB.insert(k2);
                 k = "";
             }
         }
@@ -79,31 +75,52 @@ int main() {
         it++;
     }
 
-    for(map::iterator i = geneA.begin();!a.empty() && i != geneA.end(); i++){
-        uint_fast32_t m = geneB.count(i->first);
-        if(m > 0){
-            x = i->first;
-            while(geneA.count(x) > 0){
-                map::iterator j = geneA.find(x);
-                a.erase(j->second[0]);
-                a.erase(j->second[1]);
-                geneA.erase(j);
+    it = a.begin();
+    while(it != a.end()){
+        x = it->first;
+        for(int i=0; i < x.length()-1;i++){
+            y += x[i];
+            if(a.contains(y)){
+                for (int j=i+1; j<x.length(); j++){
+                    k += x[j];
+                }
+                if(geneB.contains(k)){
+                    SA.insert(x);
+                    SA.insert(y);
+                }
+                k = "";
             }
-            while(geneB.count(x) > 0){
-                map::iterator j = geneB.find(x);
-                b.erase(j->second[0]);
-                b.erase(j->second[1]);
-                geneB.erase(j);
-            }
-
         }
+        y = "";
+        it++;
     }
 
-    cout<<a.size()<<' '<<b.size()<<endl;
+    it = b.begin();
+    while(it != b.end()){
+        x = it->first;
+        for(int i=0; i < x.length()-1;i++){
+            y += x[i];
+            if(b.contains(y)){
+                for (int j=i+1; j<x.length(); j++){
+                    k += x[j];
+                }
+                string k2 (k.rbegin(), k.rend());
+                if(geneA.contains(k2)){
+                    SB.insert(x);
+                    SB.insert(y);
+                }
+                k = "";
+            }
+        }
+        y = "";
+        it++;
+    }
+
+    cout<<A-SA.size()<<' '<<B-SB.size()<<endl;
 
 #ifdef LOCAL
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds >(end - start).count() << std::endl;
+    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 #endif
     return 0;
 }
